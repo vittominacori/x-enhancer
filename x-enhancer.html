@@ -1,0 +1,79 @@
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../core-ajax/core-ajax.html">
+
+<!--
+Custom Polymer element for text enhancement.
+
+##### Example
+
+    <x-enhancer
+        id="element"
+        text="Italy"
+        title="Hello, I'm &lt;x-enhancer&gt;, a custom Polymer element...">
+        <span>And this is my client-provided content!</span>
+    </x-enhancer>
+
+@element x-enhancer
+@blurb Custom Polymer element for text enhancement.
+@status alpha
+@homepage https://github.com/vittominacori/x-enhancer/
+-->
+<polymer-element name="x-enhancer" attributes="title text">
+
+    <template>
+        <link rel="stylesheet" href="x-enhancer.css">
+
+        <div class="title">{{ title }}</div>
+
+        <content></content>
+
+        <paper-input
+                value="{{ text }}"
+                label="Type a country name..."
+                floatinglabel
+                vertical
+                layout
+                flex></paper-input>
+
+        <core-ajax
+                auto
+                url="http://dbpedia.org/sparql"
+                handleas="json"
+                params='{"default-graph-uri":"http://dbpedia.org","format":"application/sparql-results+json","query":"{{ query }}"}'
+                method="GET"
+                hidden
+                on-core-response="{{ handleResponse }}"></core-ajax>
+
+        <div class="result">Capital: {{result}}</div>
+
+    </template>
+
+    <script>
+
+        Polymer('x-enhancer', {
+            text: '',
+            ready: function () {
+            },
+            textChanged: function () {
+                this.query = this.buildQuery(this.text);
+                this.result = '';
+            },
+            buildQuery: function (endPoint) {
+                endPoint = endPoint.charAt(0).toUpperCase() + endPoint.slice(1);
+                return "CONSTRUCT { <http://dbpedia.org/resource/"+endPoint+"> ?prop0 ?val0 } WHERE { { <http://dbpedia.org/resource/"+endPoint+"> ?prop0 ?val0 } }"
+            },
+            handleResponse: function(event, detail, sender){
+                var that = this;
+                event.detail.response.results.bindings
+                        .forEach(function (triple) {
+                            if (triple.p.value == 'http://dbpedia.org/ontology/capital') {
+                                that.result = triple.o.value.substr(triple.o.value.lastIndexOf('/') + 1);
+                                return false;
+                            }
+                        });
+            }
+        });
+
+    </script>
+
+</polymer-element>

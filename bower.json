@@ -1,0 +1,23 @@
+{
+  "name": "x-enhancer",
+  "version": "0.0.1",
+  "authors": [
+    "Vittorio Minacori <vittoriominacori@gmail.com>"
+  ],
+  "description": "Custom Polymer element for text enhancement.",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "enhancer",
+    "dbpedia"
+  ],
+  "main": "x-enhancer.html",
+  "license": "MIT",
+  "homepage": "https://github.com/vittominacori/x-enhancer/",
+  "dependencies": {
+    "polymer": "Polymer/polymer#latest",
+    "paper-input": "Polymer/paper-input#~0.5.4",
+    "core-ajax": "Polymer/core-ajax#~0.5.4"
+  }
+}

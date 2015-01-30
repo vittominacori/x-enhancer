@@ -1,0 +1,23 @@
+:host {
+    display: block;
+}
+
+:host *,
+::content * {
+    font-family: Helvetica, sans-serif;
+}
+
+::content > * {
+    display: block;
+    color: #0000ff;
+    margin: 0 0 20px 0;
+}
+
+::content * {
+    font-size: 16px;
+}
+
+.title {
+    font-size: 20px;
+    margin: 0 0 20px 0;
+}
